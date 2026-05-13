@@ -1,7 +1,3 @@
-from pathlib import Path
-
-content = r"""# Day 1: From sequence to structure with AlphaFold
-
 ## Module context
 
 Welcome to the first day of the protein complex prediction module. In this course block, you will investigate how evolutionary information in protein sequences can be used to predict protein structures and protein complexes.
