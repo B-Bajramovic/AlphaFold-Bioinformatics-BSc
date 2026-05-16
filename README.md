@@ -120,7 +120,7 @@ grep ">" sequences.fasta
 
 ## Repository structure
 
-Your course repository may look like this:
+Your course repository looks like this:
 
 ```text
 day1_alphafold/
@@ -149,8 +149,6 @@ day1_alphafold/
   student_outputs/
 ```
 
-Your instructor may adjust the exact folder names and ALICE paths.
-
 ---
 
 ## Protein complex prediction strategy
@@ -174,7 +172,7 @@ The anchor pair should help you learn:
 
 After the anchor pair, your group will work with one bait protein.
 
-The bait protein is tested against a panel of candidate proteins. Some candidates are expected to be related to ATP synthase. Others are mitochondrial proteins that are not expected to be direct ATP synthase interaction partners.
+The bait protein is tested against a set of candidate proteins. Some candidates are expected to be related to ATP synthase. Others are mitochondrial proteins that are not expected to be direct ATP synthase interaction partners.
 
 This creates a small protein-protein interaction screen.
 
@@ -196,8 +194,6 @@ You will use these examples later when analysing coevolution and protein interfa
 ## Group tracks
 
 The class is divided into five tracks. Each track focuses on a different region or interpretation problem of ATP synthase.
-
-Your instructor will assign each group to one track.
 
 | Track | Focus | Main teaching idea |
 |---|---|---|
@@ -227,7 +223,7 @@ ATP5F1A x ATP5F1B
 ATP5F1A
 ```
 
-### Candidate panel
+### Candidate set
 
 ```text
 ATP5F1B
@@ -263,7 +259,7 @@ VDAC1
 
 ### Biological focus
 
-The central stalk connects the catalytic head to the rotating membrane sector. Some interactions may depend strongly on the full ATP synthase assembly.
+The central stalk connects the catalytic head to the rotating membrane sector. Interactions may depend strongly on the full ATP synthase assembly.
 
 ### Anchor pair
 
@@ -277,7 +273,7 @@ ATP5F1D x ATP5F1E
 ATP5F1C
 ```
 
-### Candidate panel
+### Candidate set
 
 ```text
 ATP5F1A
@@ -322,7 +318,7 @@ The peripheral stalk helps hold the catalytic head in place while the central ro
 ATP5PO x ATP5PB
 ```
 
-Alternative anchor pair if assigned:
+Alternative anchor pair:
 
 ```text
 ATP5PB x ATP5PD
@@ -334,7 +330,7 @@ ATP5PB x ATP5PD
 ATP5PO
 ```
 
-### Candidate panel
+### Candidate set
 
 ```text
 ATP5PB
@@ -379,7 +375,7 @@ The Fo region is membrane-associated and contains the proton channel and rotor c
 MT-ATP6 x ATP5MC1
 ```
 
-Alternative anchor pair if assigned:
+Alternative anchor pair:
 
 ```text
 MT-ATP6 x MT-ATP8
@@ -450,7 +446,7 @@ ATP5F1A x MDH2
 ATP5F1A
 ```
 
-Alternative bait proteins may be assigned:
+Alternative bait protein:
 
 ```text
 ATP5PO
@@ -492,29 +488,37 @@ CYCS
 
 ## Step 1: Log into ALICE
 
-Open a terminal and connect to ALICE using the instructions provided by your instructor.
+**For mac users**
+
+Open a terminal and connect to ALICE using the following steps:
 
 Example:
 
 ```bash
-ssh your_username@alice.leidenuniv.nl
+ssh studentnumber@ssh-gw.alice.universiteitleiden.nl
 ```
+
+then once in the gateway server, you can log into the HPC. The gateway is like a border checkpoint that secures the main servers.
+
+```bash
+ssh studentnumber@login.alice.universiteitleiden.nl
+```
+**For Windows users**
+
+Go to the ALICE wiki page and follow instructions for MobaXterm: https://pubappslu.atlassian.net/wiki/spaces/HPCWIKI/pages/37748811/Login+to+ALICE+or+SHARK+from+Windows#MobaXTerm 
 
 Move into the course folder:
 
 ```bash
-cd /path/to/day1_alphafold
+cd  /zfsstore/courses/2025-2026/4022BIOIFY/
 pwd
 ls
 ```
 
-Check that you can see the main folders:
+
 
 ```bash
-ls data
-ls candidate_panels
-ls scripts
-ls results_precomputed
+
 ```
 
 ---
