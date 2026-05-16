@@ -77,7 +77,7 @@ Main topics:
 8. How to interpret pLDDT and PAE.
 9. Why ATP synthase is a useful case study.
 
-### Part 2: Practical, 2 hours
+### Part 2: Practical, 2~ hours
 
 The practical is divided into three stages:
 
