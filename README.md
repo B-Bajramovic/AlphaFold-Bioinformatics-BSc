@@ -508,20 +508,36 @@ ssh studentnumber@login.alice.universiteitleiden.nl
 Go to the ALICE wiki page and follow instructions for MobaXterm: https://pubappslu.atlassian.net/wiki/spaces/HPCWIKI/pages/37748811/Login+to+ALICE+or+SHARK+from+Windows#MobaXTerm 
 
 **Back to all users**
-Move into the course folder:
+
+First you will need to prepare your folders and activate some programs. Begin by moving into the course folder to create your group folder. Here you will do all the work for today.
 
 ```bash
-cd  /zfsstore/courses/2025-2026/4022BIOIFY/
-pwd
-ls
+cd  /zfsstore/courses/2025-2026/4022BIOIFY/users
+mkdir groupnumber_studentnumber_studentnumber
+cd groupnumber_studentnumber_studentnumber
 ```
-
-
+Once made, clone this github repository to your folder.
 
 ```bash
-
+git clone https://github.com/B-Bajramovic/AlphaFold-Bioinformatics-BSc.git
 ```
+Now you have all necessary files, but your ALICE base environment still lacks a few programs to function properly. First we activate conda by loading the module Miniconda3/24.7.1-0. This is an environment manager used to created envs which contain specific versions of software you want to work with such as python. 
 
+```bash
+module load Miniconda3/24.7.1-0
+conda init
+source ~/.bashrc
+exec bash
+```
+Now that conda works, we will use it to create an environment and install python into it. The environment should be installed into your group folder.
+
+```bash
+conda create -p /zfsstore/courses/2025-2026/4022BIOIFY/users/groupnumber_studentnumber_studentnumber
+conda activate /zfsstore/courses/2025-2026/4022BIOIFY/users/groupnumber_studentnumber_studentnumber
+conda install python -c conda-forge
+which python
+```
+The output to ```which python``` should be inside your group folder. If the output looks like ```/easybuild/software/Python/3.12.3-GCCcore-13.3.0/bin/python```, something went wrong and you should ask for help.
 ---
 
 ## Step 2: Find your group track
