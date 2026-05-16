@@ -8,7 +8,7 @@ In this module, you will investigate how protein sequences can be used to predic
 
 Today you will use AlphaFold to predict protein structures and protein-protein interactions. Later in the module, you will analyse coevolutionary signals and inspect predicted structures in more detail. The work you do today will provide material for your final group presentation.
 
-You do not need to submit a formal report today. Instead, use the tables and questions in this page as scaffolding. They are designed to help you collect useful results, screenshots, and interpretations for your presentation.
+**You do not need to submit a formal report today**. Instead, use the tables and questions in this page as scaffolding. They are designed to help you collect useful results, screenshots, and interpretations for your presentation.
 
 ---
 
