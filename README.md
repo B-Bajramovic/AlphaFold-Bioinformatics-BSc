@@ -507,6 +507,7 @@ ssh studentnumber@login.alice.universiteitleiden.nl
 
 Go to the ALICE wiki page and follow instructions for MobaXterm: https://pubappslu.atlassian.net/wiki/spaces/HPCWIKI/pages/37748811/Login+to+ALICE+or+SHARK+from+Windows#MobaXTerm 
 
+**Back to all users**
 Move into the course folder:
 
 ```bash
@@ -575,8 +576,6 @@ P56381        ATP5F1E       ATP synthase F1 subunit epsilon      ATP_synthase
 P40925        MDH2          malate dehydrogenase 2               decoy
 ```
 
-The exact contents may differ depending on the course dataset.
-
 Inspect the FASTA file:
 
 ```bash
@@ -593,7 +592,6 @@ grep -c ">" data/protein_subset.fasta
 
 ## Step 4: Inspect your anchor pair input
 
-Your anchor pair input may already be prepared.
 
 Example:
 
