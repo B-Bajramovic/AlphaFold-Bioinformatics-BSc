@@ -541,17 +541,12 @@ which python
 The output to ```which python``` should be inside your group folder. If the output looks like ```/easybuild/software/Python/3.12.3-GCCcore-13.3.0/bin/python```, something went wrong and you should ask for help.
 ---
 
-## Step 2: Find your group track
+## Step 2: Find your track 
 
 Open the group assignment file:
 
 ```bash
-column -t -s $'\t' data/group_tracks.tsv | less -S
 ```
-
-Find your group number.
-
-Example table structure:
 
 ```text
 group_id    track    anchor_pair         bait
@@ -568,8 +563,6 @@ Open your candidate panel:
 ```bash
 column -t -s $'\t' candidate_panels/track_A_F1_head.tsv | less -S
 ```
-
-Replace `track_A_F1_head.tsv` with the panel assigned to your group.
 
 ---
 
