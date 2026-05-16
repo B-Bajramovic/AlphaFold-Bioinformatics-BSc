@@ -1,155 +1,126 @@
-# Day 1: From sequence to structure with AlphaFold
+# Day 1: AlphaFold prediction of protein complexes
 
-## Module context
+## From sequence to structure in the mitochondrial ATP synthase
 
-Welcome to the first day of the protein complex prediction module. In this course block, you will investigate how evolutionary information in protein sequences can be used to predict protein structures and protein complexes.
+Welcome to Day 1 of the protein complex prediction module.
 
-The biological case study is the mitochondrial ATP synthase. This is a large molecular machine that produces ATP by coupling proton flow through a membrane embedded motor to catalysis in a soluble catalytic head. You will receive a curated subset of mitochondrial proteins. Some of these proteins belong to ATP synthase, while others are distractors. Over the coming days, your job is to use AlphaFold predictions, coevolution analysis, and structural inspection to infer which proteins likely interact.
+In this module, you will investigate how protein sequences can be used to predict protein structures and protein complexes. The biological case study is the mitochondrial ATP synthase, a large molecular machine that produces ATP by coupling proton movement through a membrane sector to catalysis in a soluble catalytic sector.
 
-Today focuses on AlphaFold and practical prediction workflows on HPC ALICE.
+Today you will use AlphaFold to predict protein structures and protein-protein interactions. Later in the module, you will analyse coevolutionary signals and inspect predicted structures in more detail. The work you do today will provide material for your final group presentation.
+
+You do not need to submit a formal report today. Instead, use the tables and questions in this page as scaffolding. They are designed to help you collect useful results, screenshots, and interpretations for your presentation.
+
+---
 
 ## Learning goals
 
 By the end of Day 1, you should be able to:
 
 1. Explain why protein structure prediction is useful in biology.
-2. Describe how multiple sequence alignments can contain evolutionary information about protein structure.
-3. Explain, at a conceptual level, how AlphaFold uses sequence, MSA, and pairwise residue information.
-4. Describe the difference between predicting a single protein and predicting a protein complex.
-5. Prepare or inspect AlphaFold input files for protein complex prediction.
-6. Submit a small AlphaFold prediction job on HPC ALICE.
-7. Interpret basic AlphaFold output files using confidence metrics such as pLDDT and PAE.
-8. Make an initial judgement about whether a predicted protein interaction is credible.
+2. Describe, at a basic conceptual level, why evolutionary information can help predict protein structures.
+3. Explain the difference between predicting a single protein and predicting a protein complex.
+4. Prepare or inspect AlphaFold input files for protein complex prediction.
+5. Submit or inspect AlphaFold prediction jobs on HPC ALICE.
+6. Interpret basic AlphaFold confidence outputs using pLDDT and PAE.
+7. Open predicted protein structures in PyMOL.
+8. Make an initial, cautious judgement about whether a predicted protein-protein interaction is plausible.
+
+---
 
 ## The big idea
 
-Proteins do not evolve residue by residue in isolation. If two residues physically contact each other in a folded protein, a mutation in one position may be compensated by a mutation in the other. Across many related sequences, these paired changes can leave a statistical signal. This is called coevolution.
+Proteins evolve under structural and functional constraints. If two residues physically contact each other, a mutation in one position may be compensated by a mutation in the other. Across many related sequences, this can create a coevolutionary signal.
 
-AlphaFold does not simply memorize protein shapes. It uses information from amino acid sequence, homologous sequences, templates when available, and learned residue pair representations to predict a structure that is compatible with the input sequence and evolutionary context.
+AlphaFold uses amino acid sequence information, multiple sequence alignments, structural patterns learned from known protein structures, and learned residue-pair representations to predict 3D structures.
 
-For protein complexes, the challenge becomes harder. We need to know not only how each chain folds, but also whether chains interact, where they interact, and whether the predicted interface is biologically meaningful.
+For protein complexes, the challenge is harder. AlphaFold must not only predict how each protein chain folds, but also whether the chains interact and how they are positioned relative to each other.
 
-## Before the practical
+Today, you will not try to prove the full ATP synthase structure. Instead, you will use AlphaFold as a hypothesis-generating tool.
 
-Make sure you can:
+---
 
-1. Log into ALICE.
-2. Navigate directories using the command line.
-3. Use `ls`, `cd`, `pwd`, `less`, `head`, and `cat`.
-4. Submit a job with `sbatch`.
-5. Check the queue with `squeue`.
-6. Copy output files or open them in a viewer when instructed.
+## Important caution
 
-If one of these steps is unfamiliar, ask before starting the prediction work. The goal today is not to become a Linux wizard. The goal is to use the command line as a laboratory instrument.
+A predicted structure is not the same as experimental proof.
+
+For today, your goal is to ask:
+
+> Does AlphaFold produce a plausible interaction model for this protein pair?
+
+You should not conclude:
+
+> These proteins definitely interact in vivo.
+
+or
+
+> These proteins do not interact in vivo because one pairwise prediction looked weak.
+
+The mitochondrial ATP synthase is a large multi-subunit complex. Some real interactions only make sense in the full assembly, in a membrane environment, or with additional partner proteins present. Pairwise prediction is a useful teaching strategy, but it is a simplification.
+
+---
 
 ## Day 1 schedule
 
 ### Part 1: Lecture, 1 hour
 
-#### 0 to 10 min: Why predict protein structures?
+The lecture introduces the principles behind computational protein structure prediction.
 
-Questions:
+Main topics:
 
-1. Why do we care about protein structure?
-2. Why are experimental structures difficult to obtain?
-3. What can a predicted structure tell us?
-4. What can a predicted structure not tell us?
+1. Why protein structure matters.
+2. Why experimental structure determination can be difficult.
+3. How sequence evolution contains structural information.
+4. What multiple sequence alignments are.
+5. How coevolution can reveal residue contacts.
+6. How AlphaFold uses sequence, MSA, and pairwise residue information.
+7. Why protein complex prediction is harder than single-chain prediction.
+8. How to interpret pLDDT and PAE.
+9. Why ATP synthase is a useful case study.
 
-Key concepts:
+### Part 2: Practical, 2 hours
 
-* Amino acid sequence
-* Protein fold
-* Protein domain
-* Protein complex
-* Protein interface
-* Structural model
-* Experimental validation
+The practical is divided into three stages:
 
-#### 10 to 25 min: Evolutionary information in sequences
+1. **Anchor prediction**  
+   You inspect or run one known or likely protein-protein interaction.
 
-Questions:
+2. **Bait screen**  
+   You test one ATP synthase protein against a panel of candidate proteins. Some candidates are expected ATP synthase partners, while others are negative controls or distractors.
 
-1. What is a multiple sequence alignment?
-2. Why are conserved residues often important?
-3. What does it mean when two positions coevolve?
-4. Why does correlation not always mean direct contact?
+3. **Initial interpretation**  
+   You inspect pLDDT, PAE, and 3D structure in PyMOL. You choose useful examples to carry forward into later days.
 
-Key concepts:
+---
 
-* Homologs
-* Orthologs
-* Paralogs
-* Conservation
-* Covariation
-* Coevolution
-* Direct and indirect correlations
+## Before you start
 
-Example:
+Make sure you can:
 
-Imagine two residues that form a salt bridge. If one residue changes from positive to neutral, the partner residue may also change because the original interaction is no longer useful. Across many species, such compensating changes can indicate that the two positions are structurally or functionally linked.
+1. Log into ALICE.
+2. Move through folders using `cd`.
+3. List files using `ls`.
+4. View files using `less`, `head`, or `cat`.
+5. Submit jobs using `sbatch`.
+6. Check the queue using `squeue`.
+7. Open or download predicted structures for PyMOL inspection.
 
-#### 25 to 40 min: How AlphaFold uses sequence information
+Useful basic commands:
 
-Conceptual AlphaFold workflow:
+```bash
+pwd
+ls
+cd folder_name
+cd ..
+less filename
+head filename
+grep ">" sequences.fasta
+```
 
-1. Start with an amino acid sequence.
-2. Search databases for related sequences.
-3. Build a multiple sequence alignment.
-4. Extract conservation and covariation patterns.
-5. Build internal representations of residue level and residue pair information.
-6. Iteratively refine the predicted geometry.
-7. Produce a 3D model and confidence estimates.
-
-Important message:
-
-AlphaFold output is not just a coordinate file. It is a prediction plus confidence information. You should always inspect both.
-
-#### 40 to 50 min: Predicting protein complexes
-
-Single protein prediction asks:
-
-> How does this chain fold?
-
-Protein complex prediction asks:
-
-> Do these chains bind, and if so, how?
-
-Additional challenges:
-
-* Correct stoichiometry may be unknown.
-* The true interface may need a membrane, cofactor, ligand, or assembly partner.
-* Related proteins may confuse the evolutionary signal.
-* A visually compact model can still be biologically wrong.
-* Flexible regions may have low confidence even if the folded domains are correct.
-
-#### 50 to 60 min: Confidence metrics
-
-Today you will mainly use:
-
-1. **pLDDT**  
-   A per residue confidence score. High pLDDT means AlphaFold is locally confident about the position of that residue. Low pLDDT may indicate disorder, flexibility, missing context, or failed prediction.
-
-2. **PAE**  
-   Predicted aligned error. This helps you judge whether AlphaFold is confident about the relative placement of domains or chains. For complexes, low PAE between chains is more encouraging than high PAE between chains.
-
-3. **Visual interface inspection**  
-   A predicted interaction is more convincing when the chains form a clear interface, the interface has reasonable confidence, and the prediction agrees with biological expectations.
-
-## Practical overview
-
-In the practical, you will work with a small set of mitochondrial proteins. Some are ATP synthase subunits. Some are distractors.
-
-You will:
-
-1. Inspect protein sequence files.
-2. Inspect or generate AlphaFold input files.
-3. Submit one small prediction job on ALICE.
-4. Inspect an example output from a completed prediction.
-5. Record your first interpretation of predicted interfaces.
+---
 
 ## Repository structure
 
-The course repository may look like this:
+Your course repository may look like this:
 
 ```text
 day1_alphafold/
@@ -157,23 +128,367 @@ day1_alphafold/
   data/
     protein_subset.fasta
     protein_metadata.tsv
-    example_pairs.tsv
+    group_tracks.tsv
+  candidate_panels/
+    track_A_F1_head.tsv
+    track_B_central_stalk.tsv
+    track_C_peripheral_stalk.tsv
+    track_D_Fo_membrane.tsv
+    track_E_decoy_screen.tsv
   inputs/
-    single_chain_examples/
-    complex_examples/
+    anchor_pairs/
+    bait_screens/
   jobs/
     template_job.sbatch
   scripts/
-    make_af3_input.py
-    check_prediction_outputs.py
+    make_pair_input.py
+    make_bait_screen_inputs.py
   results_precomputed/
-    ATP5F1A_ATP5F1B/
-    ATP5F1D_ATP5F1E/
-    ATP5F1A_decoy/
+    anchor_pairs/
+    bait_screens/
   student_outputs/
 ```
 
-Your instructor may adjust the exact paths depending on the ALICE course environment.
+Your instructor may adjust the exact folder names and ALICE paths.
+
+---
+
+## Protein complex prediction strategy
+
+Today you will use a prediction ladder.
+
+### Stage 1: Anchor pair
+
+Each group starts with one assigned protein pair. This is your controlled starting point.
+
+The anchor pair should help you learn:
+
+1. What an AlphaFold input file looks like.
+2. What output files are produced.
+3. How to inspect pLDDT.
+4. How to inspect PAE.
+5. How to open the predicted model in PyMOL.
+6. What a plausible or implausible interface looks like.
+
+### Stage 2: Bait screen
+
+After the anchor pair, your group will work with one bait protein.
+
+The bait protein is tested against a panel of candidate proteins. Some candidates are expected to be related to ATP synthase. Others are mitochondrial proteins that are not expected to be direct ATP synthase interaction partners.
+
+This creates a small protein-protein interaction screen.
+
+The question is:
+
+> Which candidate proteins produce the most plausible interaction predictions with the bait?
+
+### Stage 3: Selection for later days
+
+At the end of Day 1, choose:
+
+1. One strong or plausible predicted interaction.
+2. One weak, uncertain, or suspicious predicted interaction.
+
+You will use these examples later when analysing coevolution and protein interface structure.
+
+---
+
+## Group tracks
+
+The class is divided into five tracks. Each track focuses on a different region or interpretation problem of ATP synthase.
+
+Your instructor will assign each group to one track.
+
+| Track | Focus | Main teaching idea |
+|---|---|---|
+| A | F1 catalytic head | Soluble ATP synthase subunits can form clear predicted interfaces |
+| B | Central stalk | Some true biological interactions depend on larger complex context |
+| C | Peripheral stalk / stator | Interfaces can connect soluble and membrane-associated parts |
+| D | Fo membrane sector | Membrane proteins are important but harder to interpret |
+| E | ATP synthase versus decoys | Shared mitochondrial localization does not mean direct interaction |
+
+---
+
+## Track A: F1 catalytic head
+
+### Biological focus
+
+The F1 region contains the soluble catalytic part of ATP synthase. It includes alpha and beta subunits that form the catalytic head.
+
+### Anchor pair
+
+```text
+ATP5F1A x ATP5F1B
+```
+
+### Suggested bait protein
+
+```text
+ATP5F1A
+```
+
+### Candidate panel
+
+```text
+ATP5F1B
+ATP5F1C
+ATP5F1D
+ATP5F1E
+ATP5PO
+ATP5PB
+ATP5PD
+ATP5PF
+MT-ATP6
+MT-ATP8
+ATP5MC1
+MDH2
+NDUFA9
+UQCRC1
+COX5A
+TOMM20
+HSPD1
+VDAC1
+```
+
+### Questions for this track
+
+1. Does ATP5F1A form a plausible interface with ATP5F1B?
+2. Do other F1 subunits produce plausible interactions?
+3. Do unrelated mitochondrial proteins produce weaker predictions?
+4. Can you distinguish “same complex” from “direct interaction”?
+
+---
+
+## Track B: Central stalk
+
+### Biological focus
+
+The central stalk connects the catalytic head to the rotating membrane sector. Some interactions may depend strongly on the full ATP synthase assembly.
+
+### Anchor pair
+
+```text
+ATP5F1D x ATP5F1E
+```
+
+### Suggested bait protein
+
+```text
+ATP5F1C
+```
+
+### Candidate panel
+
+```text
+ATP5F1A
+ATP5F1B
+ATP5F1D
+ATP5F1E
+ATP5PO
+ATP5PB
+ATP5PD
+ATP5PF
+ATP5MC1
+MT-ATP6
+MT-ATP8
+ATP5ME
+ATP5MF
+ATP5MG
+MDH2
+NDUFS2
+COX4I1
+TOMM40
+HSPA9
+```
+
+### Questions for this track
+
+1. Which candidates produce plausible interactions with ATP5F1C?
+2. Are the predicted interactions compact or extended?
+3. Do the models suggest a stable pairwise interaction or a context-dependent assembly?
+4. Which predictions should be treated cautiously?
+
+---
+
+## Track C: Peripheral stalk / stator
+
+### Biological focus
+
+The peripheral stalk helps hold the catalytic head in place while the central rotor turns. This region connects the F1 head to the membrane sector.
+
+### Anchor pair
+
+```text
+ATP5PO x ATP5PB
+```
+
+Alternative anchor pair if assigned:
+
+```text
+ATP5PB x ATP5PD
+```
+
+### Suggested bait protein
+
+```text
+ATP5PO
+```
+
+### Candidate panel
+
+```text
+ATP5PB
+ATP5PD
+ATP5PF
+ATP5F1A
+ATP5F1B
+ATP5F1C
+ATP5F1D
+ATP5F1E
+ATP5ME
+ATP5MF
+ATP5MG
+MT-ATP6
+MT-ATP8
+ATP5MC1
+NDUFA9
+UQCRC2
+COX5B
+HSPD1
+VDAC1
+```
+
+### Questions for this track
+
+1. Which proteins produce plausible interactions with ATP5PO?
+2. Are any predictions difficult to interpret because of elongated or flexible regions?
+3. Does PAE support a confident relative placement of chains?
+4. Which candidates might require a larger complex context?
+
+---
+
+## Track D: Fo membrane sector
+
+### Biological focus
+
+The Fo region is membrane-associated and contains the proton channel and rotor components. These proteins can be more difficult to interpret because hydrophobic membrane helices may form plausible-looking contacts.
+
+### Anchor pair
+
+```text
+MT-ATP6 x ATP5MC1
+```
+
+Alternative anchor pair if assigned:
+
+```text
+MT-ATP6 x MT-ATP8
+```
+
+### Suggested bait protein
+
+```text
+MT-ATP6
+```
+
+### Candidate panel
+
+```text
+MT-ATP8
+ATP5MC1
+ATP5ME
+ATP5MF
+ATP5MG
+ATP5MJ
+ATP5MK
+ATP5PB
+ATP5PD
+ATP5PF
+ATP5PO
+ATP5F1C
+ATP5F1D
+ATP5F1E
+COX1
+COX2
+CYB
+UQCRB
+NDUFA1
+```
+
+### Questions for this track
+
+1. Which candidates produce plausible membrane-sector interactions?
+2. Are the predicted interfaces formed by transmembrane helices?
+3. Could hydrophobic membrane helices create misleading contacts?
+4. Which predictions would need extra evidence before being trusted?
+
+---
+
+## Track E: ATP synthase versus mitochondrial decoys
+
+### Biological focus
+
+Not every mitochondrial protein belongs to ATP synthase. This track tests whether AlphaFold predictions can help separate likely ATP synthase interactions from unrelated mitochondrial proteins.
+
+### Anchor pair
+
+Positive control:
+
+```text
+ATP5F1A x ATP5F1B
+```
+
+Negative control:
+
+```text
+ATP5F1A x MDH2
+```
+
+### Suggested bait protein
+
+```text
+ATP5F1A
+```
+
+Alternative bait proteins may be assigned:
+
+```text
+ATP5PO
+MT-ATP6
+```
+
+### Candidate panel
+
+```text
+ATP5F1B
+ATP5F1C
+ATP5PO
+ATP5PB
+ATP5PD
+MT-ATP6
+ATP5MC1
+MDH2
+IDH3A
+HSPD1
+HSPA9
+TOMM20
+TOMM40
+VDAC1
+NDUFA9
+NDUFS2
+UQCRC1
+COX5A
+CYCS
+```
+
+### Questions for this track
+
+1. Which candidates look like plausible ATP synthase partners?
+2. Which candidates look like likely negatives?
+3. Do any decoy proteins produce misleading contacts?
+4. Why is mitochondrial localization alone not enough evidence for direct interaction?
+
+---
 
 ## Step 1: Log into ALICE
 
@@ -193,35 +508,70 @@ pwd
 ls
 ```
 
-Check that you can see the repository folders:
+Check that you can see the main folders:
 
 ```bash
 ls data
+ls candidate_panels
 ls scripts
 ls results_precomputed
 ```
 
-## Step 2: Inspect the protein subset
+---
 
-Open the protein metadata table:
+## Step 2: Find your group track
+
+Open the group assignment file:
+
+```bash
+column -t -s $'\t' data/group_tracks.tsv | less -S
+```
+
+Find your group number.
+
+Example table structure:
+
+```text
+group_id    track    anchor_pair         bait
+group_01    A        ATP5F1A_ATP5F1B     ATP5F1A
+group_02    A        ATP5F1A_ATP5F1B     ATP5F1A
+group_06    B        ATP5F1D_ATP5F1E     ATP5F1C
+group_11    C        ATP5PO_ATP5PB       ATP5PO
+group_16    D        MT-ATP6_ATP5MC1     MT-ATP6
+group_21    E        ATP5F1A_ATP5F1B     ATP5F1A
+```
+
+Open your candidate panel:
+
+```bash
+column -t -s $'\t' candidate_panels/track_A_F1_head.tsv | less -S
+```
+
+Replace `track_A_F1_head.tsv` with the panel assigned to your group.
+
+---
+
+## Step 3: Inspect the protein metadata
+
+Open the metadata table:
 
 ```bash
 column -t -s $'\t' data/protein_metadata.tsv | less -S
 ```
 
-The table may contain:
+This file may contain:
 
 ```text
-protein_id    short_name    description                         expected_role
-P25705        ATP5F1A       ATP synthase F1 subunit alpha        hidden
-P06576        ATP5F1B       ATP synthase F1 subunit beta         hidden
-P36542        ATP5F1C       ATP synthase F1 subunit gamma        hidden
-P30049        ATP5F1D       ATP synthase F1 subunit delta        hidden
-P56381        ATP5F1E       ATP synthase F1 subunit epsilon      hidden
-Q00000        DECOY1        mitochondrial decoy protein          hidden
+protein_id    short_name    description                         category
+P25705        ATP5F1A       ATP synthase F1 subunit alpha        ATP_synthase
+P06576        ATP5F1B       ATP synthase F1 subunit beta         ATP_synthase
+P36542        ATP5F1C       ATP synthase F1 subunit gamma        ATP_synthase
+P30049        ATP5F1D       ATP synthase F1 subunit delta        ATP_synthase
+P56381        ATP5F1E       ATP synthase F1 subunit epsilon      ATP_synthase
+P40925        MDH2          malate dehydrogenase 2               decoy
 ```
 
-Do not worry if the exact proteins differ. Your task is to use evidence, not to memorize the answer.
+The exact contents may differ depending on the course dataset.
 
 Inspect the FASTA file:
 
@@ -229,276 +579,152 @@ Inspect the FASTA file:
 grep ">" data/protein_subset.fasta
 ```
 
-Count how many protein sequences are present:
+Count the number of proteins:
 
 ```bash
 grep -c ">" data/protein_subset.fasta
 ```
 
-View one sequence:
+---
 
-```bash
-grep -A 2 "ATP5F1A" data/protein_subset.fasta
-```
+## Step 4: Inspect your anchor pair input
 
-## Step 3: Think before predicting
-
-Before running AlphaFold, answer these questions in your notes:
-
-1. Which proteins would you expect to be soluble?
-2. Which proteins might be membrane associated?
-3. Which proteins might form stable subcomplexes?
-4. Which combinations would be bad guesses?
-5. What evidence would convince you that two proteins interact?
-
-Prediction is expensive. A good computational biologist does not launch jobs randomly. They design tests.
-
-## Step 4: Inspect example protein pairs
-
-Open the example pair table:
-
-```bash
-column -t -s $'\t' data/example_pairs.tsv
-```
+Your anchor pair input may already be prepared.
 
 Example:
 
-```text
-pair_id              chain_a     chain_b     reason
-ATP5F1A_ATP5F1B      ATP5F1A     ATP5F1B     likely F1 head interaction
-ATP5F1D_ATP5F1E      ATP5F1D     ATP5F1E     likely stalk interaction
-ATP5F1A_DECOY1       ATP5F1A     DECOY1      negative control
-```
-
-Choose one pair for today. Your instructor may assign pairs to avoid everyone running the same job.
-
-## Step 5: Inspect AlphaFold input format
-
-AlphaFold3 style inputs are usually JSON files. For this teaching practical, the input files are prepared for you or generated by a script.
-
-Inspect an example input:
-
 ```bash
-less inputs/complex_examples/ATP5F1A_ATP5F1B/input.json
+ls inputs/anchor_pairs
+less inputs/anchor_pairs/ATP5F1A_ATP5F1B/input.json
 ```
 
-You should be able to identify:
+Try to identify:
 
 1. The job name.
-2. The protein sequences.
-3. The chain identifiers.
-4. The number of model seeds, if included.
-5. Any additional settings used by the local ALICE installation.
+2. The protein chains.
+3. The sequence of chain A.
+4. The sequence of chain B.
+5. Whether this is a single-chain or multi-chain prediction.
 
 Questions:
 
-1. How many protein chains are present?
-2. Are the chains identical or different?
-3. Is this a single protein prediction or a complex prediction?
-4. Does the input define stoichiometry?
+1. Which proteins are included?
+2. Are the proteins identical or different?
+3. Is the prediction testing a direct protein-protein interaction?
+4. What would count as a convincing result?
 
-## Step 6: Generate an input file
+---
 
-If your instructor asks you to generate an input file, use the provided script.
+## Step 5: Run or inspect the anchor prediction
 
-Example:
+Your instructor will tell you whether to submit the anchor job yourself or inspect a precomputed result.
 
-```bash
-python scripts/make_af3_input.py \
-  --fasta data/protein_subset.fasta \
-  --pair ATP5F1A ATP5F1B \
-  --outdir student_outputs/ATP5F1A_ATP5F1B \
-  --job-name ATP5F1A_ATP5F1B \
-  --seeds 3
-```
-
-Check the output:
+If you submit the job:
 
 ```bash
-ls student_outputs/ATP5F1A_ATP5F1B
-less student_outputs/ATP5F1A_ATP5F1B/input.json
-```
-
-If the script fails, read the error message carefully. Common problems include:
-
-* Typing a protein name that does not exist in the FASTA file.
-* Running the command from the wrong folder.
-* Forgetting to create or specify an output directory.
-* Using spaces or special characters in a job name.
-
-## Step 7: Prepare the SLURM job
-
-Inspect the job script:
-
-```bash
-less jobs/template_job.sbatch
-```
-
-A simplified SLURM script may look like this:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=af3_example
-#SBATCH --partition=gpu-mig-40g,gpu-a100-80g
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
-#SBATCH --time=04:00:00
-#SBATCH --output=logs/%x_%j.out
-#SBATCH --error=logs/%x_%j.err
-
-module purge
-module load alphafold/cc8_3-20250304
-
-alphafold \
-  --json_path=input.json \
-  --output_dir=output
-```
-
-Your local ALICE command may differ. Always follow the command given by your instructor.
-
-Copy or generate a job script for your chosen prediction:
-
-```bash
-cp jobs/template_job.sbatch student_outputs/ATP5F1A_ATP5F1B/job.sbatch
-cd student_outputs/ATP5F1A_ATP5F1B
-mkdir -p logs
-```
-
-Before submitting, check:
-
-```bash
-pwd
-ls
-less input.json
-less job.sbatch
-```
-
-## Step 8: Submit the job
-
-Submit the job:
-
-```bash
+cd inputs/anchor_pairs/ATP5F1A_ATP5F1B
 sbatch job.sbatch
-```
-
-Check the queue:
-
-```bash
 squeue -u $USER
 ```
 
-Watch the log files:
+If you inspect a precomputed result:
 
 ```bash
-ls logs
-tail -f logs/*.out
+ls results_precomputed/anchor_pairs/ATP5F1A_ATP5F1B
 ```
 
-To stop watching the file, press:
+Look for:
 
 ```text
-Ctrl + C
+structure file
+PAE plot or PAE data
+confidence file
+ranking file
+log file
 ```
 
-## Step 9: Inspect precomputed results
+File names may differ depending on the AlphaFold version and local setup.
 
-Because AlphaFold jobs can take time, you will inspect precomputed outputs while your own job is running.
+---
 
-Move back to the course folder:
+## Step 6: Inspect pLDDT
 
-```bash
-cd /path/to/day1_alphafold
-```
+pLDDT is a per-residue confidence score.
 
-List precomputed results:
+General interpretation:
 
-```bash
-find results_precomputed -maxdepth 2 -type f | head
-```
+| pLDDT range | Approximate interpretation |
+|---|---|
+| > 90 | Very high local confidence |
+| 70 to 90 | Confident local structure |
+| 50 to 70 | Low confidence or flexible region |
+| < 50 | Very low confidence, often disorder or unreliable local structure |
 
-For each completed prediction folder, look for:
+Questions:
 
-* Predicted structure files, such as `.cif` or `.pdb`
-* Confidence files
-* PAE plots or JSON files
-* Ranking files
-* Log files
+1. Are most residues high confidence?
+2. Are low-confidence residues located in tails, loops, or entire domains?
+3. Are interface residues high confidence?
+4. Is one chain more confident than the other?
+
+Important:
+
+High pLDDT means AlphaFold is confident about the local structure. It does not automatically mean the protein-protein interaction is correct.
+
+---
+
+## Step 7: Inspect PAE
+
+PAE means predicted aligned error. It helps estimate whether AlphaFold is confident about the relative positions of residues, domains, or chains.
+
+For protein complexes, PAE is especially useful.
+
+Questions:
+
+1. Is PAE low within each chain?
+2. Is PAE low between the two chains?
+3. Does AlphaFold seem confident about the relative placement of the proteins?
+4. Are there blocks of high PAE between chains, suggesting uncertain interaction geometry?
+
+General interpretation:
+
+| PAE pattern | Possible interpretation |
+|---|---|
+| Low PAE within chains, low PAE between chains | More plausible stable complex |
+| Low PAE within chains, high PAE between chains | Chains may fold well individually, but relative placement is uncertain |
+| High PAE in flexible regions | Disorder or flexibility may be present |
+| Mixed PAE between chains | Some parts may be confidently positioned, others uncertain |
+
+---
+
+## Step 8: Open the model in PyMOL
+
+Open your structure file in PyMOL.
 
 Example:
 
 ```bash
-ls results_precomputed/ATP5F1A_ATP5F1B
+pymol results_precomputed/anchor_pairs/ATP5F1A_ATP5F1B/ranked_model.cif
 ```
 
-## Step 10: Interpret AlphaFold outputs
+The file name may differ. Use `ls` to find the correct structure file.
 
-For one precomputed prediction, record the following:
-
-### Basic information
-
-```text
-Prediction name:
-Chains included:
-Number of residues in chain A:
-Number of residues in chain B:
-Prediction model inspected:
-```
-
-### Confidence
-
-```text
-Average pLDDT, if available:
-Regions with high confidence:
-Regions with low confidence:
-Inter chain PAE low, medium, or high:
-```
-
-### Interface
-
-```text
-Do the chains touch each other?
-Does the interface look compact?
-Are interface residues confident?
-Is the relative chain placement confident according to PAE?
-Would you call this interaction likely, uncertain, or unlikely?
-```
-
-### Biological interpretation
-
-```text
-Does the predicted interaction make sense for ATP synthase?
-Could this be part of the F1 head, central stalk, peripheral stalk, Fo sector, or a decoy interaction?
-What additional evidence would you want?
-```
-
-## Step 11: Minimal PyMOL inspection
-
-Open a predicted structure in PyMOL or another structure viewer.
-
-Example:
-
-```bash
-pymol results_precomputed/ATP5F1A_ATP5F1B/ranked_model.cif
-```
-
-Useful PyMOL commands:
+Basic PyMOL commands:
 
 ```pymol
 hide everything
 show cartoon
-color marine, chain A
-color orange, chain B
 orient
 ```
 
-Color by confidence if pLDDT values are stored in the B factor column:
+Color chains separately:
 
 ```pymol
-spectrum b, blue_white_red
+color marine, chain A
+color orange, chain B
 ```
 
-Select possible interface residues within 5 Å:
+Show possible interface residues within 5 Angstrom:
 
 ```pymol
 select interface_A, chain A within 5 of chain B
@@ -506,83 +732,464 @@ select interface_B, chain B within 5 of chain A
 show sticks, interface_A or interface_B
 ```
 
+Zoom in on the interface:
+
+```pymol
+zoom interface_A or interface_B
+```
+
 Questions:
 
-1. Is the interface small or large?
-2. Is it formed by ordered regions or floppy tails?
-3. Does one chain wrap around the other?
-4. Are there obvious clashes or strange geometry?
-5. Would this prediction be enough to claim interaction?
+1. Do the chains touch?
+2. Is the interface compact?
+3. Is the interface made of ordered regions?
+4. Does the structure look physically plausible?
+5. Do the chains form one coherent complex or do they appear loosely arranged?
 
-## Step 12: Day 1 checkpoint questions
+---
 
-Submit short answers before leaving.
+## Step 9: Record your anchor pair interpretation
 
-### Conceptual questions
+Use this table in your notes. You do not need to submit it today, but it will help you prepare your presentation.
 
-1. What is a multiple sequence alignment?
-2. Why can coevolution help predict protein contacts?
-3. Why is protein complex prediction harder than single chain prediction?
-4. What does high pLDDT tell you?
-5. What does high pLDDT not tell you?
-6. Why is PAE useful for judging protein complexes?
+```text
+Anchor pair:
+Track:
+Group:
 
-### Practical questions
+Question                                           Answer
+Which proteins were predicted?
+Do the chains touch?
+Is local confidence high at the interface?
+Is between-chain PAE low, medium, or high?
+Does the model suggest a plausible interaction?
+What makes the prediction convincing?
+What makes the prediction uncertain?
+Would you carry this pair forward to Day 2 or Day 3?
+```
 
-1. Which protein pair did you inspect?
-2. Did the prediction suggest an interaction?
-3. Which confidence evidence supported your judgement?
-4. Which evidence made you cautious?
-5. What would you test next?
+Suggested final call categories:
 
-## Expected Day 1 deliverable
+```text
+likely direct interaction
+possible interaction
+uncertain
+likely negative
+not interpretable from this prediction
+```
 
-Upload or submit a short note with:
+---
 
-1. Your chosen protein pair or subcomplex.
-2. One screenshot of the predicted structure.
-3. One screenshot or summary of the confidence information.
-4. A short interpretation of the predicted interaction.
-5. One limitation of the prediction.
-6. One follow up prediction or analysis you would run.
+## Step 10: Prepare the bait screen
 
-Recommended length: 300 to 500 words.
+The bait screen tests one bait protein against several candidate proteins.
 
-## Example interpretation
+Example:
 
-The prediction of ATP5F1A with ATP5F1B produced a compact interface between two well folded chains. Most residues in the structured domains showed high pLDDT. The PAE plot suggested that the relative placement of the two chains was more reliable than in the negative control prediction. This supports the idea that ATP5F1A and ATP5F1B interact as part of the F1 catalytic head. However, this prediction alone does not prove the full ATP synthase architecture, because the real complex contains multiple copies and additional subunits. Further predictions with ATP5F1C and other F1 components would be needed.
+```text
+bait: ATP5F1A
+
+candidates:
+ATP5F1B
+ATP5F1C
+ATP5F1D
+ATP5F1E
+ATP5PO
+MDH2
+NDUFA9
+COX5A
+...
+```
+
+Your instructor may provide prepared input files for all bait-candidate pairs.
+
+Example:
+
+```bash
+ls inputs/bait_screens/track_A_F1_head
+```
+
+If input files must be generated:
+
+```bash
+python scripts/make_bait_screen_inputs.py \
+  --fasta data/protein_subset.fasta \
+  --bait ATP5F1A \
+  --candidate-table candidate_panels/track_A_F1_head.tsv \
+  --outdir student_outputs/track_A_F1_head_ATP5F1A_screen
+```
+
+Check the generated folders:
+
+```bash
+ls student_outputs/track_A_F1_head_ATP5F1A_screen
+```
+
+---
+
+## Step 11: Run or inspect bait screen predictions
+
+Your instructor will tell you whether to run a small number of predictions yourself or inspect precomputed outputs.
+
+If submitting one candidate job:
+
+```bash
+cd student_outputs/track_A_F1_head_ATP5F1A_screen/ATP5F1A_ATP5F1B
+sbatch job.sbatch
+squeue -u $USER
+```
+
+If inspecting precomputed results:
+
+```bash
+ls results_precomputed/bait_screens/track_A_F1_head
+```
+
+Do not spend all your time on one model. The goal is to compare several predictions.
+
+---
+
+## Step 12: Summarize bait screen results
+
+Use this table as a working template.
+
+You do not need perfect answers today. The goal is to organize observations for later analysis.
+
+```text
+bait	candidate	chains_touch	interface_pLDDT	between_chain_PAE	3D_interface	final_call	short_reason
+ATP5F1A	ATP5F1B	yes	high	low	compact	likely direct interaction	F1 catalytic head proteins
+ATP5F1A	ATP5F1C	yes	medium	medium	partial	possible interaction	may require larger complex context
+ATP5F1A	MDH2	no	high	high	none	likely negative	mitochondrial enzyme, no clear interface
+```
+
+Suggested values:
+
+For `chains_touch`:
+
+```text
+yes
+no
+unclear
+```
+
+For `interface_pLDDT`:
+
+```text
+high
+medium
+low
+mixed
+```
+
+For `between_chain_PAE`:
+
+```text
+low
+medium
+high
+mixed
+```
+
+For `3D_interface`:
+
+```text
+compact
+partial
+loose
+none
+suspicious
+```
+
+For `final_call`:
+
+```text
+likely direct interaction
+possible interaction
+uncertain
+likely negative
+not interpretable
+```
+
+---
+
+## Step 13: Choose examples for later days
+
+At the end of Day 1, choose two examples from your track.
+
+### Example 1: Strong or plausible interaction
+
+Choose a prediction that seems worth further analysis.
+
+Good signs:
+
+1. Chains form a clear interface.
+2. Interface residues have reasonable pLDDT.
+3. Between-chain PAE is relatively low.
+4. The interaction makes biological sense.
+5. The pair belongs to a plausible ATP synthase subcomplex.
+
+### Example 2: Weak, uncertain, or suspicious interaction
+
+Choose a prediction that is difficult to interpret.
+
+Possible reasons:
+
+1. Chains touch, but between-chain PAE is high.
+2. The interface is small or strange.
+3. One or both chains have low confidence.
+4. The proteins are likely unrelated.
+5. The model looks plausible visually but lacks confidence support.
+6. The prediction may require larger complex context.
+
+These two examples will be useful for Day 2 and Day 3.
+
+---
+
+## What to save for your presentation
+
+You do not need to submit anything today, but you should save useful material.
+
+Recommended items:
+
+1. Screenshot of one plausible predicted interaction.
+2. Screenshot of one weak or suspicious predicted interaction.
+3. PAE plot or PAE summary for both examples.
+4. Short notes on pLDDT at the interface.
+5. Your bait screen result table.
+6. A short explanation of why you trust one prediction more than another.
+
+Your final presentation will be easier if you collect these items today.
+
+---
+
+## Decision rules for Day 1
+
+Use these rules as a first-pass guide.
+
+### More convincing prediction
+
+A prediction is more convincing if:
+
+1. The chains form a clear interface.
+2. The interface is made of structured regions.
+3. pLDDT is high or reasonable at the interface.
+4. PAE between chains is low or at least not uniformly high.
+5. The interaction makes biological sense.
+6. A negative control looks clearly worse.
+
+### Less convincing prediction
+
+A prediction is less convincing if:
+
+1. The chains barely touch.
+2. The interface is formed only by low-confidence tails.
+3. Between-chain PAE is high.
+4. The orientation of chains appears uncertain.
+5. The proteins are not expected to be in the same complex.
+6. Similar-looking contacts appear for many unrelated proteins.
+
+### Not interpretable from Day 1 alone
+
+A prediction may be difficult to interpret if:
+
+1. It involves membrane proteins.
+2. The interaction likely requires additional subunits.
+3. The proteins are flexible or elongated.
+4. The correct stoichiometry is unknown.
+5. The model is sensitive to small changes in input.
+
+In these cases, do not force a yes or no answer. Use `uncertain` or `not interpretable`.
+
+---
+
+## Common mistakes to avoid
+
+### Mistake 1: Treating high pLDDT as proof of interaction
+
+High pLDDT means local structure confidence. It does not guarantee that two chains are correctly positioned relative to each other.
+
+### Mistake 2: Ignoring PAE
+
+For complexes, PAE is essential. If two proteins are individually confident but have high between-chain PAE, the interaction may be uncertain.
+
+### Mistake 3: Calling all ATP synthase proteins direct interactors
+
+Two proteins can belong to the same large complex without directly touching each other.
+
+### Mistake 4: Calling all mitochondrial proteins ATP synthase partners
+
+Mitochondria contain many unrelated proteins. Shared localization is not enough evidence for direct interaction.
+
+### Mistake 5: Trusting every membrane protein contact
+
+Hydrophobic helices can form plausible-looking contacts. Membrane-sector predictions need careful interpretation.
+
+---
+
+## Day 1 working questions
+
+Use these questions to guide your group discussion.
+
+### AlphaFold and confidence
+
+1. What does pLDDT tell you?
+2. What does pLDDT not tell you?
+3. What does PAE tell you?
+4. Why is PAE especially useful for protein complexes?
+5. Can two chains have high pLDDT but still form an uncertain complex?
+
+### Anchor pair
+
+1. What is your anchor pair?
+2. Does the predicted model show a clear interface?
+3. Is the interface locally confident?
+4. Is the relative chain placement supported by PAE?
+5. Would you call the interaction likely, possible, uncertain, or unlikely?
+
+### Bait screen
+
+1. What is your bait protein?
+2. Which candidate gave the most convincing prediction?
+3. Which candidate gave the weakest prediction?
+4. Did any negative or decoy protein produce a misleading result?
+5. Which pair do you want to analyse further on Day 2?
+6. Which pair do you want to inspect structurally on Day 3?
+
+---
+
+## Minimal PyMOL command list
+
+Open a structure:
+
+```bash
+pymol model.cif
+```
+
+Basic view:
+
+```pymol
+hide everything
+show cartoon
+orient
+```
+
+Color chains:
+
+```pymol
+color marine, chain A
+color orange, chain B
+```
+
+Show interface residues:
+
+```pymol
+select interface_A, chain A within 5 of chain B
+select interface_B, chain B within 5 of chain A
+show sticks, interface_A or interface_B
+zoom interface_A or interface_B
+```
+
+Save a session:
+
+```pymol
+save my_prediction_session.pse
+```
+
+Save an image:
+
+```pymol
+png my_prediction_image.png, dpi=300
+```
+
+---
+
+## Optional: useful file checks
+
+Count proteins in the FASTA file:
+
+```bash
+grep -c ">" data/protein_subset.fasta
+```
+
+List protein names:
+
+```bash
+grep ">" data/protein_subset.fasta
+```
+
+Find all result folders:
+
+```bash
+find results_precomputed -maxdepth 3 -type d
+```
+
+Find structure files:
+
+```bash
+find results_precomputed -name "*.cif" -o -name "*.pdb"
+```
+
+Find possible PAE files:
+
+```bash
+find results_precomputed -iname "*pae*"
+```
+
+Find log files:
+
+```bash
+find results_precomputed -name "*.out" -o -name "*.err" -o -name "*.log"
+```
+
+---
 
 ## Mini glossary
 
-**AlphaFold**  
-A protein structure prediction system developed by DeepMind. AlphaFold2 predicts protein structures from amino acid sequence using deep learning, evolutionary information, and structural patterns learned from known structures.
+### AlphaFold
 
-**AlphaFold Multimer**  
-A version of AlphaFold designed for protein complex prediction.
+A computational system for predicting protein structures from amino acid sequence and related information.
 
-**AlphaFold3**  
-A newer AlphaFold model designed to predict biomolecular complexes involving proteins, nucleic acids, small molecules, ions, and modified residues.
+### Protein complex
 
-**MSA**  
-Multiple sequence alignment. A table of related sequences aligned so that homologous positions are compared.
+A structure formed by two or more protein chains that physically interact.
 
-**Coevolution**  
-Coordinated evolutionary change between residues, often because those residues are structurally or functionally linked.
+### MSA
 
-**pLDDT**  
-Predicted local distance difference test. A per residue confidence score.
+Multiple sequence alignment. A set of related protein sequences aligned so that equivalent positions can be compared.
 
-**PAE**  
-Predicted aligned error. A confidence measure for the relative placement of residues, domains, or chains.
+### Coevolution
 
-**Interface**  
-The physical contact region between two interacting protein chains.
+Coordinated evolutionary change between residues or proteins. Coevolution can suggest structural or functional relationships.
 
-**Stoichiometry**  
-The number of copies of each chain in a complex.
+### pLDDT
 
-**Decoy**  
-A protein included as a negative control or distractor.
+Predicted local distance difference test. A per-residue confidence score for local structure.
+
+### PAE
+
+Predicted aligned error. A confidence estimate for the relative placement of residues, domains, or chains.
+
+### Interface
+
+The region where two protein chains physically contact each other.
+
+### Bait protein
+
+The protein used as the fixed query in a screen against many candidate partners.
+
+### Candidate protein
+
+A protein tested as a possible interaction partner for the bait.
+
+### Decoy
+
+A protein included as a likely negative control or distractor.
+
+### Stoichiometry
+
+The number of copies of each protein chain in a complex.
+
+---
 
 ## References and further reading
 
@@ -598,6 +1205,10 @@ A protein included as a negative control or distractor.
 
 6. Varadi M, Anyango S, Deshpande M, et al. AlphaFold Protein Structure Database: massively expanding the structural coverage of protein sequence space with high accuracy models. Nucleic Acids Research. 2022;50:D439 to D444. DOI: 10.1093/nar/gkab1061.
 
+---
+
 ## End of Day 1
 
-Today you used AlphaFold as a prediction tool and began learning how to judge its output. Tomorrow, you will go one layer deeper and ask where part of AlphaFold's structural signal comes from: coevolution in protein sequences.
+Today you used AlphaFold to generate or inspect protein complex predictions. You learned how to make an initial judgement using pLDDT, PAE, and 3D structure inspection.
+
+On Day 2, you will go one layer deeper and ask whether sequence coevolution supports the predicted interactions.
