@@ -534,7 +534,8 @@ Now that conda works, we will use it to create an environment and install python
 ```bash
 conda create -p /zfsstore/courses/2025-2026/4022BIOIFY/users/groupnumber_studentnumber_studentnumber
 conda activate /zfsstore/courses/2025-2026/4022BIOIFY/users/groupnumber_studentnumber_studentnumber
-conda install python -c conda-forge
+conda install -c conda-forge -c bioconda python bio
+#you may be prompted to confirm installation with y/n. type y and hit enter.
 which python
 ```
 The output to ```which python``` should be inside your group folder. If the output looks like ```/easybuild/software/Python/3.12.3-GCCcore-13.3.0/bin/python```, something went wrong and you should ask for help.
