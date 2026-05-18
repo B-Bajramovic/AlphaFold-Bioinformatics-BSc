@@ -596,7 +596,12 @@ python scripts/AF3_prepare.py $FASTA \
 FIX IF RESERVATION NODE IS BROKEN
 
 ```bash
- python scripts/AF3_prepare.py prey.fasta     --bait bait.fasta     --mode ppi     --outdir outputs/${TRACK}_starting_pair     --submit-script --reservation '' --partition gpu-short
+python scripts/AF3_prepare.py $FASTA \
+    --mode single \
+    --outdir outputs/${TRACK}_single \
+    --submit-script \
+    --reservation '' \
+    --partition gpu-short
 ```
 
 Inspect the output folder:
