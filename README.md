@@ -688,7 +688,7 @@ python scripts/AF3_prepare.py prey.fasta \
     --bait bait.fasta \
     --mode ppi \
     --outdir outputs/${TRACK}_starting_pair \
-    --submit-script
+    --submit-script \
     --af3-module-profile cc7
 
 ```
@@ -864,7 +864,7 @@ python scripts/AF3_prepare.py $FASTA \
     --mode ppi \
     --skip-self \
     --outdir outputs/${TRACK}_${BAIT}_screen \
-    --submit-script
+    --submit-script \
     --af3-module-profile cc7
 ```
 
