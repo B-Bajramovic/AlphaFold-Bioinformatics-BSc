@@ -548,21 +548,6 @@ Open the group assignment file:
 ```bash
 ```
 
-```text
-group_id    track    anchor_pair         bait
-group_01    A        ATP5F1A_ATP5F1B     ATP5F1A
-group_02    A        ATP5F1A_ATP5F1B     ATP5F1A
-group_06    B        ATP5F1D_ATP5F1E     ATP5F1C
-group_11    C        ATP5PO_ATP5PB       ATP5PO
-group_16    D        MT-ATP6_ATP5MC1     MT-ATP6
-group_21    E        ATP5F1A_ATP5F1B     ATP5F1A
-```
-
-Open your candidate panel:
-
-```bash
-column -t -s $'\t' candidate_panels/track_A_F1_head.tsv | less -S
-```
 
 ---
 
@@ -572,18 +557,6 @@ Open the metadata table:
 
 ```bash
 column -t -s $'\t' data/protein_metadata.tsv | less -S
-```
-
-This file may contain:
-
-```text
-protein_id    short_name    description                         category
-P25705        ATP5F1A       ATP synthase F1 subunit alpha        ATP_synthase
-P06576        ATP5F1B       ATP synthase F1 subunit beta         ATP_synthase
-P36542        ATP5F1C       ATP synthase F1 subunit gamma        ATP_synthase
-P30049        ATP5F1D       ATP synthase F1 subunit delta        ATP_synthase
-P56381        ATP5F1E       ATP synthase F1 subunit epsilon      ATP_synthase
-P40925        MDH2          malate dehydrogenase 2               decoy
 ```
 
 Inspect the FASTA file:
@@ -811,30 +784,6 @@ MDH2
 NDUFA9
 COX5A
 ...
-```
-
-Your instructor may provide prepared input files for all bait-candidate pairs.
-
-Example:
-
-```bash
-ls inputs/bait_screens/track_A_F1_head
-```
-
-If input files must be generated:
-
-```bash
-python scripts/make_bait_screen_inputs.py \
-  --fasta data/protein_subset.fasta \
-  --bait ATP5F1A \
-  --candidate-table candidate_panels/track_A_F1_head.tsv \
-  --outdir student_outputs/track_A_F1_head_ATP5F1A_screen
-```
-
-Check the generated folders:
-
-```bash
-ls student_outputs/track_A_F1_head_ATP5F1A_screen
 ```
 
 ---
@@ -1111,46 +1060,6 @@ Save an image:
 
 ```pymol
 png my_prediction_image.png, dpi=300
-```
-
----
-
-## Optional: useful file checks
-
-Count proteins in the FASTA file:
-
-```bash
-grep -c ">" data/protein_subset.fasta
-```
-
-List protein names:
-
-```bash
-grep ">" data/protein_subset.fasta
-```
-
-Find all result folders:
-
-```bash
-find results_precomputed -maxdepth 3 -type d
-```
-
-Find structure files:
-
-```bash
-find results_precomputed -name "*.cif" -o -name "*.pdb"
-```
-
-Find possible PAE files:
-
-```bash
-find results_precomputed -iname "*pae*"
-```
-
-Find log files:
-
-```bash
-find results_precomputed -name "*.out" -o -name "*.err" -o -name "*.log"
 ```
 
 ---
