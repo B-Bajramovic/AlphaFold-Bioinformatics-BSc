@@ -464,7 +464,7 @@ conda create -p ./python -c bioconda -c conda-forge python=3.11 bio
 Activate the environment:
 
 ```bash
-conda activate ./af3_day1_env
+conda activate ./python
 ```
 
 Check that Python is coming from your group folder:
