@@ -1,5 +1,15 @@
 # Day 1: AlphaFold prediction of protein complexes
 
+
+
+FIX COMMAND FOR CC8 TO CC7 
+
+```bash
+find users/11A_s4224043_s4530497/outputs \
+  -type f \
+  -name "job.sbatch" \
+  -exec sed -i 's/alphafold\/cc8_3-20250304/alphafold\/cc7_3-20250304/g' {} +
+```
 ## From sequence to structure in the human mitochondrial ATP synthase
 
 Welcome to Day 1 of the protein complex prediction module.
