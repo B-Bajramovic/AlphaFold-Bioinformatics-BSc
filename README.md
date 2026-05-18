@@ -591,17 +591,7 @@ python scripts/AF3_prepare.py $FASTA \
     --mode single \
     --outdir outputs/${TRACK}_single \
     --submit-script
-```
-
-FIX IF RESERVATION NODE IS BROKEN
-
-```bash
-python scripts/AF3_prepare.py $FASTA \
-    --mode single \
-    --outdir outputs/${TRACK}_single \
-    --submit-script \
-    --reservation '' \
-    --partition gpu-short
+    --af3-module-profile cc7
 ```
 
 Inspect the output folder:
@@ -787,6 +777,7 @@ python scripts/AF3_prepare.py prey.fasta \
     --mode ppi \
     --outdir outputs/${TRACK}_comparison_pair \
     --submit-script
+    --af3-module-profile cc7
 ```
 
 Inspect the generated files:
@@ -872,6 +863,7 @@ python scripts/AF3_prepare.py $FASTA \
     --skip-self \
     --outdir outputs/${TRACK}_${BAIT}_screen \
     --submit-script
+    --af3-module-profile cc7
 ```
 
 Inspect the generated jobs:
@@ -903,7 +895,6 @@ Check that it contains:
 #SBATCH --partition=gpu_ibl
 #SBATCH --reservation=4022BIOIFY_2526_S2
 #SBATCH --gres=gpu:rtx5000:1
-module load alphafold/cc8_3-20250304
 ```
 
 These settings are used for the 4022BIOIFY teaching reservation on the IBL GPU node.
