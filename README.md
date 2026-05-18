@@ -381,6 +381,7 @@ Create a folder for your group. Replace the example name with your real group nu
 ```bash
 mkdir groupnumber_studentnumber_studentnumber
 cd groupnumber_studentnumber_studentnumber
+chmod -R 777 .
 ```
 
 Check that you are in the correct folder:
@@ -457,7 +458,7 @@ exec bash
 Create a Python environment **inside your group folder**:
 
 ```bash
-conda create -p ./python -c biopython -c conda-forge python=3.11 bio
+conda create -p ./python -c bioconda -c conda-forge python=3.11 bio
 ```
 
 Activate the environment:
