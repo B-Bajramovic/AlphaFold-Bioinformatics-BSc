@@ -689,6 +689,8 @@ python scripts/AF3_prepare.py prey.fasta \
     --mode ppi \
     --outdir outputs/${TRACK}_starting_pair \
     --submit-script
+    --af3-module-profile cc7
+
 ```
 
 Inspect the generated job:
