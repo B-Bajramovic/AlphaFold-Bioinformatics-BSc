@@ -590,7 +590,7 @@ First generate AlphaFold3 inputs for all single proteins in your assigned FASTA.
 python scripts/AF3_prepare.py $FASTA \
     --mode single \
     --outdir outputs/${TRACK}_single \
-    --submit-script
+    --submit-script \
     --af3-module-profile cc7
 ```
 
