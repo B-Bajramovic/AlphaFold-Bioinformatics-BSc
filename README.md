@@ -788,7 +788,7 @@ python scripts/AF3_prepare.py prey.fasta \
     --bait bait.fasta \
     --mode ppi \
     --outdir outputs/${TRACK}_comparison_pair \
-    --submit-script
+    --submit-script \
     --af3-module-profile cc7
 ```
 
