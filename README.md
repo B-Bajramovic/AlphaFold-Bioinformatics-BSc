@@ -44,32 +44,6 @@ A plausible prediction is not the same as experimental proof.
 
 ---
 
-## Important interpretation rule
-
-A predicted protein complex is a hypothesis.
-
-Do not conclude:
-
-```text
-These proteins definitely interact in vivo.
-```
-
-Do not conclude:
-
-```text
-These proteins do not interact in vivo because one prediction looked weak.
-```
-
-For this practical, the correct interpretation is more cautious:
-
-```text
-This pair gives a more plausible or less plausible AlphaFold3 complex prediction under the conditions tested today.
-```
-
-Some real ATP synthase interactions depend on the full assembly, membrane context, cofactors, or additional subunits. A weak pairwise prediction can therefore be caused by missing biological context. A strong looking pairwise prediction can also be misleading if the confidence metrics do not support the relative placement of the chains.
-
----
-
 ## AlphaFold confidence outputs
 
 ### pLDDT
