@@ -141,8 +141,6 @@ scripts/
   AF3_prepare.py
 ```
 
-The FASTA headers have been simplified to UniProt accession IDs only.
-
 Example FASTA format:
 
 ```text
@@ -151,8 +149,6 @@ MLSVRVAAAVVRALPRRAGLVSRNALGSSFIAARNFHASNTHLQKTGTA...
 >P06576
 MLGFVGRVAAAPASGALRRLTPSASLPPAQLLLRAAPTAVHPVRDYA...
 ```
-
-This means that protein identity is tracked by UniProt accession.
 
 ---
 
@@ -458,10 +454,10 @@ If the shell does not update correctly, restart the shell:
 exec bash
 ```
 
-Create a Python environment inside your group folder:
+Create a Python environment **inside your group folder**:
 
 ```bash
-conda create -p ./af3_day1_env python=3.11 biopython -c conda-forge -y
+conda create -p ./python -c biopython -c conda-forge python=3.11 bio
 ```
 
 Activate the environment:
@@ -1254,35 +1250,6 @@ A prediction may be difficult to interpret if:
 Use `uncertain` or `not interpretable` when the evidence does not support a clear conclusion.
 
 ---
-
-## Common mistakes to avoid
-
-### Mistake 1: Treating high pLDDT as proof of interaction
-
-High pLDDT means local structure confidence. It does not guarantee that two chains are correctly positioned relative to each other.
-
-### Mistake 2: Ignoring PAE
-
-For complexes, PAE is essential. If two proteins are individually confident but have high between chain PAE, the predicted complex may be uncertain.
-
-### Mistake 3: Calling all ATP synthase proteins direct interactors
-
-Two proteins can belong to the same large complex without directly touching each other.
-
-### Mistake 4: Calling all mitochondrial proteins ATP synthase partners
-
-Mitochondria contain many unrelated proteins. Shared localization is not enough evidence for direct physical interaction.
-
-### Mistake 5: Trusting every membrane protein contact
-
-Hydrophobic helices can form plausible looking contacts. Membrane sector predictions require careful interpretation.
-
-### Mistake 6: Overinterpreting one AlphaFold3 run
-
-One prediction is not a complete biological experiment. Treat AlphaFold3 as a hypothesis generator and combine structure, confidence, biological context, and later coevolution analysis.
-
----
-
 ## Working questions
 
 ### AlphaFold and confidence
@@ -1435,11 +1402,3 @@ The number of copies of each protein chain in a complex.
 5. Senior AW, Evans R, Jumper J, Kirkpatrick J, Sifre L, Green T, et al. Improved protein structure prediction using potentials from deep learning. Nature. 2020;577:706 to 710. DOI: 10.1038/s41586-019-1923-7.
 
 6. Varadi M, Anyango S, Deshpande M, Nair S, Natassia C, Yordanova G, et al. AlphaFold Protein Structure Database: massively expanding the structural coverage of protein sequence space with high accuracy models. Nucleic Acids Research. 2022;50:D439 to D444. DOI: 10.1093/nar/gkab1061.
-
----
-
-## End of Day 1
-
-Today you used AlphaFold3 to prepare and run protein complex predictions for human mitochondrial ATP synthase protein panels. You generated pairwise predictions, inspected confidence metrics, and made cautious first interpretations using pLDDT, PAE, and 3D structure.
-
-On Day 2, you will go one layer deeper and ask whether sequence coevolution supports the predicted interactions.
