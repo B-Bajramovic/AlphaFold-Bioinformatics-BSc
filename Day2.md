@@ -2,6 +2,12 @@
 
 ### Step 0 before we get started
 
+To avoid running into permission error hell like yesterday, create an individual student folder inside your group folder. Name it by studentnumber. I do not have authorization on ALICE to solve permission errors (this year), so this is something we have to deal with for now. 
+
+I copied all your work from Monday into a new folder called backup. For now the permission errors should be gone, and your AlphaFold output should be ready. However, not all jobs finished yet, so if you do not have output let me know. I will give you data to work with. 
+
+---
+
 You will need to download some files today. This works differently if you cannot access MobaXterm. 
 
 #### Mac/Linux users
@@ -17,11 +23,7 @@ scp -r username@login.alice.universiteitleiden.nl:/path/to/folder /path/to/folde
 
 You can do the same as the Mac users with the MobaXterm home terminal, or you can simply use the interactive file explorer on the left. If this is malfuctioning, restart your session. If still malfunctioning, you may have unintentionally disabled the option and should ask for help.
 
-#### back to all users
-
-To avoid running into permission error hell like yesterday, create an individual student folder inside your group folder. Name it by studentnumber. I do not have authorization on ALICE to solve permission errors (this year), so this is something we have to deal with for now. 
-
-I copied all your work from Monday into a new folder called backup. For now the permission errors should be gone, and your AlphaFold output should be ready. However, not all jobs finished yet, so if you do not have output let me know. I will give you data to work with. 
+---
 
 ### step 1 colour by pLDDT
 
@@ -86,6 +88,7 @@ save filename.pse
 
 Perform these steps for both the single protein models of your comparison and starting pair, and for the interaction models of the comparsion and starting pairs. Save your work in a PNG. 
 
+---
 
 ### step 2 analyse the interaction residues
 
@@ -132,6 +135,8 @@ Finally, you can identify the most important contacts by using the find polar co
 
 To check whether your interface is reliable by pLDDT, you can use the previous coloring command to recolour your structure back to blue/yellow/red pLDDt. Is your interface in a reliable zone?
 
+---
+
 ### Step 3 generating a PAE plot
 
 Now we go back to ALICE. For each protein structure file you have analysed, there will additionally be a confidences.json file in the same output folder. inside it, the PAE matrix is kept in numeric format. We will use that to create our PAE plots. 
@@ -160,6 +165,7 @@ I also made a script to plot the contact probability per residue, but this is on
 ```bash
 python ../../scripts/plot_contact_probability.py outputs/track_E_comparison_pair/P06576_with_O96008/p06576_with_o96008/p06576_with_o96008_confidences.json
 ```
+---
 
 ### Step 4 calculating binding energy
 
@@ -186,10 +192,12 @@ now you will have a folder in your group folder with all cif files under collect
 
 Use it to run prodigy on all interactions. Which interactions are good? which are bad? Use the methods practiced previously to analyse the interactions and explain which ones are likely real. 
 
+---
+
 ### Step 5 Investigate on your own
 Once you have found your best interactions, use available online resources to further investigate whether the interaction is real. i.e. search databases such as uniprot to figure out what proteins you are looking at. 
 
-Once you are finished, look into the bad interactions. Why are they bad? Which proteins are mitochondrial but do not interact? Are all protein mitochondrial? 
+Once you are finished, look into the bad interactions. Why are they bad? Which proteins are mitochondrial but do not interact? Are all proteins mitochondrial? 
 
 
 
