@@ -12,7 +12,7 @@ You can do the same as the Mac users with the MobaXterm home terminal, or you ca
 
 ### back to all users
 
-#### step 1
+#### step 1 colour by pLDDT
 
 Now that you know how to transfer a file, please download the comparison pair model cif, starting pair model cif, and the corresponding single protein model cifs. 
 
@@ -76,7 +76,7 @@ save filename.pse
 Perform these steps for both the single protein models of your comparison and starting pair, and for the interaction models of the comparsion and starting pairs. Save your work in a PNG. 
 
 
-#### step 2
+#### step 2 analyse the interaction residues
 
 The previous step only looked at pLDDT values. Now lets take a look at interactions. Open the starting pair session you made and run the following code. 
 
