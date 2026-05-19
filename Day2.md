@@ -142,7 +142,13 @@ python ../../scripts/plot_PAE.py outputs/track_E_single/P00846/p00846/p00846_con
 ```
 The output png should be in your group folder if this is where you ran the script from. Windows users can use the MobaXterm file explorer to view the plot, and Mac users will need to use the scp command to download the png to their PC. 
 
-You can make a plot for each structure you are interested in. 
+You can make a plot for each structure you are interested in.
+
+I also made a script to plot the contact probability per residue, but this is only indicative and less reliable. It can be useful when you are uncertain of the interaction. To plot it you can use the same python_pae environment to run the following:
+
+```bash
+python ../../scripts/plot_contact_probability.py outputs/track_E_comparison_pair/P06576_with_O96008/p06576_with_o96008/p06576_with_o96008_confidences.json
+```
 
 ### Step 4 calculating binding energy
 
