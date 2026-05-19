@@ -1,4 +1,4 @@
-# Day 2 
+# Day 2 Understanding your AlphaFold output
 
 ### Step 0 downloading a file from ALICE to your PC
 
