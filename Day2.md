@@ -1,6 +1,8 @@
 # Day 2 Understanding your AlphaFold output
 
-### Step 0 downloading a file from ALICE to your PC
+### Step 0 before we get started
+
+You will need to download some files today. This works differently if you cannot access MobaXterm. 
 
 #### Mac/Linux users
 
@@ -16,6 +18,10 @@ scp -r username@login.alice.universiteitleiden.nl:/path/to/folder /path/to/folde
 You can do the same as the Mac users with the MobaXterm home terminal, or you can simply use the interactive file explorer on the left. If this is malfuctioning, restart your session. If still malfunctioning, you may have unintentionally disabled the option and should ask for help.
 
 #### back to all users
+
+To avoid running into permission error hell like yesterday, create an individual student folder inside your group folder. Name it by studentnumber. I do not have authorization on ALICE to solve permission errors (this year), so this is something we have to deal with for now. 
+
+I copied all your work from Monday into a new folder called backup. For now the permission errors should be gone, and your AlphaFold output should be ready. However, not all jobs finished yet, so if you do not have output let me know. I will give you data to work with. 
 
 ### step 1 colour by pLDDT
 
