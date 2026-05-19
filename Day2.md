@@ -1,18 +1,18 @@
 # Day 2 
 
-## downloading a file from ALICE to your PC
+### Step 0 downloading a file from ALICE to your PC
 
-### Mac/Linux users
+#### Mac/Linux users
 
 scp username@login.alice.universiteitleiden.nl:/path/to/file /path/to/folder/on/your/pc
 
-### Windows users
+#### Windows users
 
 You can do the same as the Mac users with the MobaXterm home terminal, or you can simply use the interactive file explorer on the left. If this is malfuctioning, restart your session. If still malfunctioning, you may have unintentionally disabled the option and should ask for help.
 
-### back to all users
+#### back to all users
 
-#### step 1 colour by pLDDT
+### step 1 colour by pLDDT
 
 Now that you know how to transfer a file, please download the comparison pair model cif, starting pair model cif, and the corresponding single protein model cifs. 
 
@@ -76,7 +76,7 @@ save filename.pse
 Perform these steps for both the single protein models of your comparison and starting pair, and for the interaction models of the comparsion and starting pairs. Save your work in a PNG. 
 
 
-#### step 2 analyse the interaction residues
+### step 2 analyse the interaction residues
 
 The previous step only looked at pLDDT values. Now lets take a look at interactions. Open the starting pair session you made and run the following code. 
 
@@ -121,7 +121,7 @@ Finally, you can identify the most important contacts by using the find polar co
 
 To check whether your interface is reliable by pLDDT, you can use the previous coloring command to recolour your structure back to blue/yellow/red pLDDt. Is your interface in a reliable zone?
 
-#### Step 3 generating a PAE plot
+### Step 3 generating a PAE plot
 
 Now we go back to ALICE. For each protein structure file you have analysed, there will additionally be a confidences.json file in the same output folder. inside it, the PAE matrix is kept in numeric format. We will use that to create our PAE plots. 
 
@@ -144,7 +144,7 @@ The output png should be in your group folder if this is where you ran the scrip
 
 You can make a plot for each structure you are interested in. 
 
-#### Step 4 calculating binding energy
+### Step 4 calculating binding energy
 
 For this step we will use the tool Prodigy. https://github.com/haddocking/prodigy
 
@@ -169,7 +169,7 @@ now you will have a folder in your group folder with all cif files under collect
 
 Use it to run prodigy on all interactions. Which interactions are good? which are bad? Use the methods practiced previously to analyse the interactions and explain which ones are likely real. 
 
-#### Step 5 Investigate on your own
+### Step 5 Investigate on your own
 Once you have found your best interactions, use available online resources to further investigate whether the interaction is real. i.e. search databases such as uniprot to figure out what proteins you are looking at. 
 
 Once you are finished, look into the bad interactions. Why are they bad? Which proteins are mitochondrial but do not interact? Are all protein mitochondrial? 
