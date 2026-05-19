@@ -4,7 +4,12 @@
 
 #### Mac/Linux users
 
+```bash
+#for a file
 scp username@login.alice.universiteitleiden.nl:/path/to/file /path/to/folder/on/your/pc
+#for a folder
+scp -r username@login.alice.universiteitleiden.nl:/path/to/folder /path/to/folder/on/your/pc
+```
 
 #### Windows users
 
