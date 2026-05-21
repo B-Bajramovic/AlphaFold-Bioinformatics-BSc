@@ -11,12 +11,14 @@ You can copy this folder with ```cp -r``` into your own group folder for further
 To run prodigy and save output into a file, use
   
 ```bash
-  prodigy -q /path/to/COMPLETED_AF3/screen/models/ > prodigy_screen.tsv 
+conda activate /zfsstore/courses/2025-2026/4022BIOIFY/conda/prodigy/bin/python
+
+prodigy -q /path/to/COMPLETED_AF3/screen/models/ > prodigy_screen.tsv 
 ```
 To make life easier, I made you a python script that can merge the TSV with the CSV index. Run as:
 
 ```bash
-python add_prodigy_to_index.py \
+python /zfsstore/courses/2025-2026/4022BIOIFY/scripts/add_prodigy_to_index.py \
   --index /path/to/screen_index.csv \
   --prodigy prodigy_screen.tsv \
   --output screen_index_with_prodigy.csv
